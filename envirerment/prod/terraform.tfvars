@@ -3,6 +3,10 @@ rgs = {
     name     = "opeartion-infra"
     location = "centralindia"
   }
+    rg2 = {
+    name     = "opeartion-infra5"
+    location = "centralindia"
+  }
 }
 stgs = {
   stg1 = {
