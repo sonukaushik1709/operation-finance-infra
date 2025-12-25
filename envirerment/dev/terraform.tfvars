@@ -98,11 +98,58 @@ nsgs = {
 }
 associations = {
   association1 = {
-    subnet_id                 = "frontend-subnet"   
+    subnet_id                 = "frontend-subnet"
     network_security_group_id = "nsg1"
   }
   association2 = {
-    subnet_id                 = "backend-subnet"    
+    subnet_id                 = "backend-subnet"
     network_security_group_id = "nsg2"
+  }
+}
+
+pips = {
+  pip1 = {
+    name                = "frontend-vm-pip"
+    resource_group_name = "opeartion-infra"
+    loaction            = "centralindia"
+    allocation_method   = "Static"
+  }
+  pip2 = {
+    name                = "backend-vm-pip"
+    resource_group_name = "opeartion-infra"
+    loaction            = "centralindia"
+    allocation_method   = "Static"
+  }
+}
+nics = {
+  nic1 = {
+    name                = "frontendvm-nic"
+    resource_group_name = "opeartion-infra"
+    location            = "centralindia"
+    ip_configurations = {
+      ip_configuration1 = {
+        name                          = "internal"
+        subnet_id                     = "frontend-subnet"
+        private_ip_address_allocation = "Dynamic"
+        public_ip_address_id          = "pip1"
+
+      }
+    }
+
+  }
+  nic2 = {
+    name                = "backendvm-nic"
+    resource_group_name = "opeartion-infra"
+    location            = "centralindia"
+    ip_configurations = {
+      ip_configuration2 = {
+        name                          = "internal"
+        subnet_id                     = "backend-subnet"
+        private_ip_address_allocation = "Dynamic"
+        public_ip_address_id          = "pip2"
+
+      }
+    }
+
   }
 }

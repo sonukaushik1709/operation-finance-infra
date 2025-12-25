@@ -18,18 +18,35 @@ module "vnet" {
   depends_on = [module.rg]
   vnets      = var.vnets
 }
-module "nsg"{
-  source = "../../module/azurerm_network_security_group"
-  depends_on = [module.rg,module.vnet]
-  nsgs = var.nsgs
+module "nsg" {
+  source     = "../../module/azurerm_network_security_group"
+  depends_on = [module.rg, module.vnet]
+  nsgs       = var.nsgs
 }
 module "association" {
-  source = "../../module/azurerm_subnet_network_security_group_association"
-  depends_on = [module.rg,module.vnet,module.nsg]
+  source       = "../../module/azurerm_subnet_network_security_group_association"
+  depends_on   = [module.rg, module.vnet, module.nsg]
   associations = var.associations
-subnet_ids = merge([
-  for v in values(module.vnet.subnet_ids) : v
-]...)
-  nsg_ids = module.nsg.nsg_ids 
+  subnet_ids = merge([
+    for v in values(module.vnet.subnet_ids) : v
+  ]...)
+  nsg_ids = module.nsg.nsg_ids
 
-    }
+}
+
+module "pip" {
+  source     = "../../module/azurerm_public_ip"
+  depends_on = [module.rg]
+  pips       = var.pips
+}
+
+module "nic" {
+  source     = "../../module/azurerm_network_interface"
+  depends_on = [module.rg, module.vnet, module.pip]
+  subnet_ids = merge([
+    for v in values(module.vnet.subnet_ids) : v
+  ]...)
+  pip_ids = module.pip.pip_ids
+  nics = var.nics
+
+}
