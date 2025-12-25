@@ -2,7 +2,7 @@ trigger: none
 pool: window-agent
 stages:
   - stage: terraform_install_init
-    dependsOn: terraform_install_init
+    displayName:  terraform_install_init
     jobs:
       - job: 
         steps:
