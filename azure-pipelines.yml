@@ -4,6 +4,7 @@ resources:
       type: git
       name: "sonupandit/amazon sales project/infra-planing"
       ref: main
+      endpoint: github.com_sonukaushik1709   # 🔥 यही missing था
 
 trigger: none
 pool: window-agent
