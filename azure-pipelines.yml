@@ -1,9 +1,9 @@
 resources:
   repositories:
-    - repository: amazonSalesRepo     
+    - repository: infra-planing
       type: git
-      name: sonupandit/amazon sales project/infra-planing
-      ref: main                        
+      name: "sonupandit/amazon sales project/infra-planing"
+      ref: main
 
 trigger: none
 pool: window-agent
@@ -19,9 +19,11 @@ parameters:
 stages:
   - stage: terraform_install_init
     jobs:
-      - template: template/terraform-init.yml@amazonSalesRepo
+      - template: template/terraform-init.yml@infra-planing
         parameters:
           environment: ${{ parameters.environment }}
+
+
 
 
 
