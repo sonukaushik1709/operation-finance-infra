@@ -7,6 +7,10 @@ terraform {
 
     }
   }
+backend "azurerm"{
+storage_account_name = "bigbasketcompany"
+container_name = "big
+key = "default.tf"
 }
 provider "azurerm" {
   features {}
