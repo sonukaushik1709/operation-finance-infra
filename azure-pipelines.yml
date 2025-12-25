@@ -1,0 +1,20 @@
+trigger: none
+pool: window-agent
+stages:
+  - stage: terraform_install_init
+    dependsOn: terraform_install_init
+    jobs:
+      - job: 
+        steps:
+          - task: TerraformInstaller@1
+            inputs:
+              terraformVersion: 'latest'
+          - task: TerraformTask@5
+            inputs:
+              provider: 'azurerm'
+              command: 'init'
+              workingDirectory: '$(System.DefaultWorkingDirectory)\envirerment\dev'
+              backendServiceArm: 'window-vm'
+              backendAzureRmStorageAccountName: 'bigbasketcompany'
+              backendAzureRmContainerName: 'big'
+              backendAzureRmKey: 'qa.tf'
