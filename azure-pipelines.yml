@@ -1,5 +1,13 @@
+resources:
+  repositories:
+    - repository: amazonSalesRepo     
+      type: git
+      name: sonupandit/amazon sales project/infra-planing
+      ref: main                        
+
 trigger: none
 pool: window-agent
+
 parameters:
   - name: environment
     default: dev
@@ -7,14 +15,34 @@ parameters:
       - dev
       - qa
       - prod
+
 stages:
   - stage: terraform_install_init
-    displayName:  terraform_install_init
-    
     jobs:
-    - template: template/terraform-init.yml
-      parameters:
-        environment: {{parameters.environment}}
+      - template: template/terraform-init.yml@amazonSalesRepo
+        parameters:
+          environment: ${{ parameters.environment }}
+
+
+
+# trigger: none
+# pool: window-agent
+# parameters:
+#   - name: environment
+#     default: dev
+#     values:
+#       - dev
+#       - qa
+#       - prod
+
+# stages:
+#   - stage: terraform_install_init
+#     displayName: terraform_install_init
+#     jobs:
+#       - template: template/terraform-init.yml
+#         parameters:
+#           environment: ${{ parameters.environment }}
+
       # - job: 
       #   steps:
       #     - task: TerraformInstaller@1
