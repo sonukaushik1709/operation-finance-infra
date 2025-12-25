@@ -33,6 +33,9 @@ stages:
     jobs:
       - job: terraform_plan
         steps:
+          - task: TerraformInstaller@1
+            inputs:
+              terraformVersion: 'latest'        
           - task: TerraformTask@5
             displayName: terraform_init
             inputs:
