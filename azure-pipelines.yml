@@ -40,3 +40,28 @@ stages:
               command: 'plan'
               workingDirectory: '$(System.DefaultWorkingDirectory)\envirerment\dev'
               environmentServiceNameAzureRM: 'window-vm'
+
+  - stage: Scaning_tools
+    displayName: Scaning_tools
+    dependsOn: terraform_plan
+    jobs:
+      - job: Scaning_tools
+        steps:
+          - task: tfsec@1
+            inputs:
+              version: 'v1.26.0'
+              dir: '$(System.DefaultWorkingDirectory)\envirerment\dev'
+
+  - stage: Mannual_validations
+    displayName: Mannual_validations 
+    pool: server
+    dependsOn: Scaning_tools
+    jobs:
+      - job: Mannual_validations 
+        steps:
+          - task: ManualValidation@1
+            inputs:
+              notifyUsers: 'sonupandit@ajayazure21gmail.onmicrosoft.com'
+              approvers: 'sonupandit@ajayazure21gmail.onmicrosoft.com'
+              onTimeout: 'resume'
+
