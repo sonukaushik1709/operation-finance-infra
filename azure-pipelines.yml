@@ -1,14 +1,5 @@
-resources:
-  repositories:
-    - repository: infra-planing
-      type: git
-      name: "sonupandit/amazon sales project/infra-planing"
-      ref: main
-      endpoint: github.com_sonukaushik1709   # 🔥 यही missing था
-
 trigger: none
 pool: window-agent
-
 parameters:
   - name: environment
     default: dev
@@ -19,44 +10,19 @@ parameters:
 
 stages:
   - stage: terraform_install_init
+    displayName: terraform_install_init
     jobs:
-      - template: template/terraform-init.yml@infra-planing
-        parameters:
-          environment: ${{ parameters.environment }}
-
-
-
-
-
-# trigger: none
-# pool: window-agent
-# parameters:
-#   - name: environment
-#     default: dev
-#     values:
-#       - dev
-#       - qa
-#       - prod
-
-# stages:
-#   - stage: terraform_install_init
-#     displayName: terraform_install_init
-#     jobs:
-#       - template: template/terraform-init.yml
-#         parameters:
-#           environment: ${{ parameters.environment }}
-
-      # - job: 
-      #   steps:
-      #     - task: TerraformInstaller@1
-      #       inputs:
-      #         terraformVersion: 'latest'
-      #     - task: TerraformTask@5
-      #       inputs:
-      #         provider: 'azurerm'
-      #         command: 'init'
-      #         workingDirectory: '$(System.DefaultWorkingDirectory)\envirerment\dev'
-      #         backendServiceArm: 'window-vm'
-      #         backendAzureRmStorageAccountName: 'bigbasketcompany'
-      #         backendAzureRmContainerName: 'big'
-      #         backendAzureRmKey: 'qa.tf'
+      - job: 
+        steps:
+          - task: TerraformInstaller@1
+            inputs:
+              terraformVersion: 'latest'
+          - task: TerraformTask@5
+            inputs:
+              provider: 'azurerm'
+              command: 'init'
+              workingDirectory: '$(System.DefaultWorkingDirectory)\envirerment\dev'
+              backendServiceArm: 'window-vm'
+              backendAzureRmStorageAccountName: 'bigbasketcompany'
+              backendAzureRmContainerName: 'big'
+              backendAzureRmKey: 'qa.tf'
