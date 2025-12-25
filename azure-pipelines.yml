@@ -14,45 +14,14 @@ stages:
     jobs:
       - job: 
         steps:
-          - task: TerraformInstaller@1
-            inputs:
-              terraformVersion: 'latest'
-          - task: TerraformTask@5
-            displayName: terraform_init
-            inputs:
-              provider: 'azurerm'
-              command: 'init'
-              workingDirectory: '$(System.DefaultWorkingDirectory)\envirerment\dev'
-              backendServiceArm: 'window-vm'
-              backendAzureRmStorageAccountName: 'bigbasketcompany'
-              backendAzureRmContainerName: 'big'
-              backendAzureRmKey: 'qa.tf'
+        - template: template.yml
   - stage: terraform_plan
     displayName: terraform plan
     dependsOn: terraform_install_init
     jobs:
       - job: terraform_plan
         steps:
-          - task: TerraformInstaller@1
-            inputs:
-              terraformVersion: 'latest'        
-          - task: TerraformTask@5
-            displayName: terraform_init
-            inputs:
-              provider: 'azurerm'
-              command: 'init'
-              workingDirectory: '$(System.DefaultWorkingDirectory)\envirerment\dev'
-              backendServiceArm: 'window-vm'
-              backendAzureRmStorageAccountName: 'bigbasketcompany'
-              backendAzureRmContainerName: 'big'
-              backendAzureRmKey: 'qa.tf'        
-          - task: TerraformTask@5
-            displayName: terraform_plan
-            inputs:
-              provider: 'azurerm'
-              command: 'plan'
-              workingDirectory: '$(System.DefaultWorkingDirectory)\envirerment\dev'
-              environmentServiceNameAzureRM: 'window-vm'
+        - template: plan.yml       
 
   - stage: Scaning_tools
     displayName: Scaning_tools
