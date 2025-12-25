@@ -18,6 +18,7 @@ stages:
             inputs:
               terraformVersion: 'latest'
           - task: TerraformTask@5
+            displayName: terraform_init
             inputs:
               provider: 'azurerm'
               command: 'init'
@@ -26,3 +27,16 @@ stages:
               backendAzureRmStorageAccountName: 'bigbasketcompany'
               backendAzureRmContainerName: 'big'
               backendAzureRmKey: 'qa.tf'
+  - stage: terraform_plan
+    displayName: terraform plan
+    dependsOn: terraform_install_init
+    jobs:
+      - job: terraform_plan
+        steps:
+          - task: TerraformTask@5
+            displayName: terraform_plan
+            inputs:
+              provider: 'azurerm'
+              command: 'plan'
+              workingDirectory: '$(System.DefaultWorkingDirectory)\envirerment\dev'
+              environmentServiceNameAzureRM: 'window-vm'
